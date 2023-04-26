@@ -1,8 +1,9 @@
 from PIL import Image
 from datetime import datetime
+import os
 import math
 
-SIZE=256
+SIZE=64
 MAX=255
 LEVELS=4
 LEVEL_SIZE=SIZE/LEVELS
@@ -11,13 +12,15 @@ w=SIZE
 m=MAX
 l=LEVEL_SIZE
 
-
+def normalized(x, min, max):
+    return (x-min)/(max-min)*m
 
 def savePng(img, size, levels):
-    now= datetime.now()
-    date_time = now.strftime("%Y-%m-%d_%H-%M-%S")
-    f = "palette" + str(size) + "W_" + str(levels) + "L_" + date_time + ".png"
-    img.convert('RGB').save(f)
+    now = datetime.now()
+    date_time = now.strftime("%Y-%m-%d_%H,%M,%S")
+    fn = "palette" + str(size) + "W_" + str(levels) + "L_" + date_time + ".png"
+
+    img.convert('RGB').save(fn)
 
 
 #divide max by size for step to next value
@@ -31,11 +34,8 @@ img = Image.new(mode="HSV", size=(w, w), color=(h,s,b))
 #level factor
 lf = (m+1)/LEVELS
 
-#hue factor
-hf = 1
-
-#brightness factor
-bf = 1
+#minimum brightness
+mb = 40
 
 #current level
 cl = 1
@@ -47,21 +47,15 @@ for i in range(w):
             b = int(abs((d*j)-m))
             h=s=0
         else:
-            # if(i==w-1):
-            #     hf=i*d*0.1 
-            #     bf=i*d*0.005
-            # else: 
-            #     hf=1
-            #     bf=1
-            h = int((d*i)*hf)
+            h = int((d*i))
             cl = int(j/l)+1
             s = int(cl*lf)-1
-
-            b = int((((j%l)+1)*m/l)*bf)
+            b = int((((j%l)+1)*m/l))
+            b = int(normalized(b, -mb, m))
             
         img.putpixel((i,j), (h,s,b))
 
-# savePng(img, SIZE, LEVELS)
+savePng(img, SIZE, LEVELS)
 
 img.show()
 
