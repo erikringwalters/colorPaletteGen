@@ -35,7 +35,7 @@ img = Image.new(mode="HSV", size=(w, w), color=(h,s,b))
 lf = (m+1)/LEVELS
 
 #minimum brightness
-mb = 40
+mb = w/2
 
 #current level
 cl = 1
