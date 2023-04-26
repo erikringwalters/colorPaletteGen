@@ -50,8 +50,8 @@ for i in range(w):
             h = int((d*i))
             cl = int(j/l)+1
             s = int(cl*lf)-1
-            b = int((((j%l)+1)*m/l))
-            b = int(normalized(b, -mb, m))
+            bx = int((((j%l)+1)*m/l))
+            b = int(normalized(bx, -mb, m))
             
         img.putpixel((i,j), (h,s,b))
 
