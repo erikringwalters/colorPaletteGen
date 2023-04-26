@@ -1,3 +1,9 @@
+### Author: Erik Ring-Walters
+### Github: erikringwalters
+### Created: April 26, 2023
+### Description: A color palette generator created to offer a wide selection of -
+### - colors in a texture image, for game assets using low-poly UV editing.
+
 from PIL import Image
 from datetime import datetime
 
